@@ -47,7 +47,7 @@ namespace SVGViewer
                 SvgDocument svgDoc = SvgDocument.FromSvg<SvgDocument>(textBox1.Text);
                 RenderSvg(svgDoc);
             }
-            catch
+            catch(Exception exception)
             {
             }
         }

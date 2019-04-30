@@ -123,7 +123,7 @@ namespace Svg
             if (!Visible || !Displayable)
                 return;
 
-            if (Width.Value > 0.0f && Height.Value > 0.0f && this.Href != null)
+            if (/*Width.Value > 0.0f && Height.Value > 0.0f &&*/ this.Href != null)
             {
                 var img = GetImage();
                 if (img != null)
@@ -134,6 +134,17 @@ namespace Svg
                     if (bmp != null)
                     {
                         srcRect = new RectangleF(0, 0, bmp.Width, bmp.Height);
+
+                        //Sets width and height based on bmp if at or lower than 0.
+                        if (Width <= 0.0f)
+                        {
+                            Width = bmp.Width;
+                        }
+
+                        if (Height <= 0.0f)
+                        {
+                            Height = bmp.Height;
+                        }
                     }
                     else if (svg != null)
                     {
