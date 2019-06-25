@@ -12,6 +12,7 @@ namespace Svg
         float Size { get; }
         float SizeInPoints { get; }
         void AddStringToPath(ISvgRenderer renderer, GraphicsPath path, string text, PointF location);
+        void AddStringToPath(ISvgRenderer renderer, GraphicsPath path, string text, RectangleF bounds);
         float Ascent(ISvgRenderer renderer);
         IList<RectangleF> MeasureCharacters(ISvgRenderer renderer, string text);
         SizeF MeasureString(ISvgRenderer renderer, string text);

@@ -31,6 +31,11 @@ namespace Svg
             path.AddString(text, _font.FontFamily, (int)_font.Style, _font.Size, location, StringFormat.GenericTypographic);
         }
 
+        public void AddStringToPath(ISvgRenderer renderer, GraphicsPath path, string text, RectangleF bounds)
+        {
+            path.AddString(text, _font.FontFamily, (int)_font.Style, _font.Size, bounds, StringFormat.GenericTypographic);
+        }
+
         //Baseline calculation to match http://bobpowell.net/formattingtext.aspx
         public float Ascent(ISvgRenderer renderer)
         {

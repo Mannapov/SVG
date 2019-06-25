@@ -701,6 +701,12 @@ namespace Svg
                                 yOffsets.Add(baselineShift);
                             }
                         }
+
+                        var inline_size = this.Element.Attributes.GetAttribute<SvgUnit>("inline-size");
+                        //double size = Convert.ToDouble(inline_size.ToString().Replace("px", ""));
+                        //this.TextBounds = new RectangleF(this.Current.X, this.Current.Y, (float)size, (float)500);
+                        //var charBounds = font.MeasureCharacters(this.Renderer, value);
+
                     }
                     finally
                     {
@@ -805,8 +811,12 @@ namespace Svg
             private void DrawStringOnCurrPath(string value, IFontDefn font, PointF location, float fontBaselineHeight, float rotation)
             {
                 var drawPath = _currPath;
+                PointF point = new PointF(location.X, location.Y - fontBaselineHeight);
+                var inline_size = this.Element.Attributes.GetAttribute<SvgUnit>("inline-size");
+                double size = Convert.ToDouble(inline_size.ToString().Replace("px", ""));
                 if (rotation != 0.0f) drawPath = new GraphicsPath();
-                font.AddStringToPath(this.Renderer, drawPath, value, new PointF(location.X, location.Y - fontBaselineHeight));
+                //font.AddStringToPath(this.Renderer, drawPath, value, new PointF(location.X, location.Y - fontBaselineHeight));
+                font.AddStringToPath(this.Renderer, drawPath, value, new RectangleF(point, new SizeF((float)size, 0)));
                 if (rotation != 0.0f && drawPath.PointCount > 0)
                 {
                     using (var matrix = new Matrix())

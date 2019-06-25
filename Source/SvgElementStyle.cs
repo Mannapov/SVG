@@ -269,6 +269,14 @@ namespace Svg
             fontFamilyCurr
         }
 
+        [SvgAttribute("inline-size", true)]
+        public virtual SvgUnit InlineSize
+        {
+            get { return (SvgUnit)(this.Attributes["inline-size"] ?? SvgUnit.Empty); }
+            set { this.Attributes["inline-size"] = value; }
+        }
+
+
         /// <summary>
         /// Set all font information.
         /// </summary>
