@@ -701,12 +701,6 @@ namespace Svg
                                 yOffsets.Add(baselineShift);
                             }
                         }
-
-                        var inline_size = this.Element.Attributes.GetAttribute<SvgUnit>("inline-size");
-                        //double size = Convert.ToDouble(inline_size.ToString().Replace("px", ""));
-                        //this.TextBounds = new RectangleF(this.Current.X, this.Current.Y, (float)size, (float)500);
-                        //var charBounds = font.MeasureCharacters(this.Renderer, value);
-
                     }
                     finally
                     {
@@ -808,15 +802,36 @@ namespace Svg
                 }
             }
 
+            private const float SET_SVG_WIDTH  = 2325;
+            private const float BUFFER         = 100;
+            /// <summary>
+            /// Draws the passed in string on a set path.
+            /// </summary>
+            /// <param name="value"></param>
+            /// <param name="font"></param>
+            /// <param name="location"></param>
+            /// <param name="fontBaselineHeight"></param>
+            /// <param name="rotation"></param>
             private void DrawStringOnCurrPath(string value, IFontDefn font, PointF location, float fontBaselineHeight, float rotation)
             {
                 var drawPath = _currPath;
                 PointF point = new PointF(location.X, location.Y - fontBaselineHeight);
-                var inline_size = this.Element.Attributes.GetAttribute<SvgUnit>("inline-size");
-                double size = Convert.ToDouble(inline_size.ToString().Replace("px", ""));
+                
+                var text_wrapping = this.Element.Attributes.GetAttribute<string>("align");
                 if (rotation != 0.0f) drawPath = new GraphicsPath();
-                //font.AddStringToPath(this.Renderer, drawPath, value, new PointF(location.X, location.Y - fontBaselineHeight));
-                font.AddStringToPath(this.Renderer, drawPath, value, new RectangleF(point, new SizeF((float)size, 0)));
+
+                if (text_wrapping != null && text_wrapping.Equals("justify"))
+                {
+                    float width = SET_SVG_WIDTH - (location.X + BUFFER);
+
+                    SizeF size = new SizeF(width, 0);
+                    font.AddStringToPath(this.Renderer, drawPath, value, new RectangleF(point, size));
+                }
+                else
+                {
+                    font.AddStringToPath(this.Renderer, drawPath, value, new PointF(location.X, location.Y - fontBaselineHeight));
+                }
+                
                 if (rotation != 0.0f && drawPath.PointCount > 0)
                 {
                     using (var matrix = new Matrix())

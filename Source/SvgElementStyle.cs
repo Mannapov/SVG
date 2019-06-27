@@ -269,13 +269,15 @@ namespace Svg
             fontFamilyCurr
         }
 
-        [SvgAttribute("inline-size", true)]
-        public virtual SvgUnit InlineSize
+        /// <summary>
+        /// Allows for text wrapping.
+        /// </summary>
+        [SvgAttribute("align", true)]
+        public virtual string Align
         {
-            get { return (SvgUnit)(this.Attributes["inline-size"] ?? SvgUnit.Empty); }
-            set { this.Attributes["inline-size"] = value; }
+            get { return this.Attributes.GetInheritedAttribute<string>("align"); }
+            set { this.Attributes["align"] = value; this.IsPathDirty = true; }
         }
-
 
         /// <summary>
         /// Set all font information.
