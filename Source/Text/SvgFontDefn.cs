@@ -72,6 +72,20 @@ namespace Svg
             }
         }
 
+        public void AddStringToPath(ISvgRenderer renderer, GraphicsPath path, string text, RectangleF bounds)
+        {
+            var textPath = GetPath(renderer, text, null, false);
+            if (textPath.PointCount > 0)
+            {
+                using (var translate = new Matrix())
+                {
+                    translate.Translate(bounds.X, bounds.Y);
+                    textPath.Transform(translate);
+                    path.AddPath(textPath, false);
+                }
+            }
+        }
+
         private GraphicsPath GetPath(ISvgRenderer renderer, string text, IList<RectangleF> ranges, bool measureSpaces)
         {
             EnsureDictionaries();

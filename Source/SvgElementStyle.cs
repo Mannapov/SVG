@@ -270,6 +270,16 @@ namespace Svg
         }
 
         /// <summary>
+        /// Allows for text wrapping.
+        /// </summary>
+        [SvgAttribute("align", true)]
+        public virtual string Align
+        {
+            get { return this.Attributes.GetInheritedAttribute<string>("align"); }
+            set { this.Attributes["align"] = value; this.IsPathDirty = true; }
+        }
+
+        /// <summary>
         /// Set all font information.
         /// </summary>
         [SvgAttribute("font", true)]
